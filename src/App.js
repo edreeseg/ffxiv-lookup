@@ -1,26 +1,43 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import styled from 'styled-components';
+import { Route } from 'react-router-dom'
+import axios from 'axios';
+import * as privateVar from './private';
 
-class App extends Component {
+import Home from './components/Home';
+
+const Container = styled.div`
+  height: 100%;
+  position: relative;
+`;
+
+class App extends React.Component {
+  state = {
+    id: '',
+  };
+  componentDidMount(){
+    axios(`${privateVar.API}/character/search?name=merwin+vyraxian&server=excalibur`)
+      .then(res => this.setState({ id: res.data.Results[0].ID }))
+      .catch(err => console.log(err));
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Container>
+        <Route exact 
+        path='/' 
+        render={props => {
+          return (
+            <Home 
+              {...props}
+              id={this.state.id}
+            />
+          )
+        }}
+        
+        />
+        <Route />
+        <Route />
+      </Container>
     );
   }
 }
