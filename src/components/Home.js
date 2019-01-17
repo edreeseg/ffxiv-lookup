@@ -16,7 +16,6 @@ class Home extends React.Component {
     render(){
         return (
             <HomeContainer>
-                <TopBar />
                 <Route exact
                     path="/"
                     render={props => <Search {...props} />}

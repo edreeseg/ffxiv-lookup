@@ -24,3 +24,6 @@ yarn-error.log*
 
 # private folder
 /src/private.js
+
+# netlify 
+/.netlify

@@ -95,13 +95,14 @@ class Search extends React.Component {
                 currentName: prevState.nameInput,
                 currentServer: prevState.serverInput,
                 loading: true,
+                page: '1',
             };
         });
         axios.get('https://xivapi.com/character/search?'
             + `name=${name}`
             + `&server=${server}`
             + `&key=${privateVar.API_Key}`
-            + `&page=${this.state.page}`
+            + '&page=1'
             + '&snake_case=1')
             .then(res => this.setState(
                 { 
