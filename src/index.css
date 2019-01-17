@@ -61,8 +61,10 @@ html {
   font-size: 62.5%;
 }
 body {
-  background: darkslategray;
+	background: url('./assets/what-the-hex-dark-bg.png');
+	font-size: 1.6rem;
+	/* Background pattern from Toptal Subtle Patterns */
 }
 #root {
   height: 100%;
-}  
+}
