@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
+import Loading from './Loading';
 import SearchResult from './SearchResult';
 import * as privateVar from '../private';
 
@@ -174,7 +175,7 @@ class Search extends React.Component {
                 </SearchForm>
                 <Results>
                     <Prev className="fas fa-arrow-circle-left" name="prev" onClick={this.handlePageChange}></Prev>
-                    {this.state.loading ? <p>Loading</p>
+                    {this.state.loading ? <Loading />
                     : this.state.response.map(char => <SearchResult key={char.id} data={char} />)}
                     <Next className="fas fa-arrow-circle-right" name="next" onClick={this.handlePageChange}></Next>
                 </Results>
