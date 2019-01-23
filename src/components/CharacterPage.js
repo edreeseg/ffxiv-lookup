@@ -19,6 +19,7 @@ class CharacterPage extends React.Component {
         parses: [],
         average: undefined,
         error: '',
+        gear: [],
     };
     componentDidMount(){
         this.fetchCharacterData();
@@ -29,15 +30,15 @@ class CharacterPage extends React.Component {
             + '&extended=1'
             + '&snake_case=1')
             .then(res => {
+                console.log(res);
                 if (res.data.info.character.state === 1){
-                    console.log(res);
                     this.setState({
                         error: `Info for character with ID ${this.props.match.params.id} not found.  Please try again in a few minutes.`,
                         loading: false,
                     });
                     return;
                 }
-                this.setState({ character: res.data.character });
+                this.setState({ character: res.data.character, gear: Object.values(res.data.character.gear_set.gear) })
                 axios.get('https://www.fflogs.com/v1/parses/character'
                 + `/${res.data.character.name.replace(/\s/, '%20')}`
                 + `/${res.data.character.server}`
@@ -79,6 +80,16 @@ class CharacterPage extends React.Component {
                                             ? 'FFLogs data could not be obtained.'
                                             : `Average of all parses is ${this.state.average}.`
                                     }
+                                    <div>
+                                        <h2>Gear:</h2>
+                                        {this.state.gear.map(x => 
+                                        <img src={`https://xivapi.com${x.item.icon}`}
+                                            title={x.item.name}
+                                            alt={x.item.name}
+                                            key={x.item.id}
+                                            style={{ cursor: 'pointer' }}
+                                        />)}
+                                    </div>
                                 </div>
                             </div>
                 )}
