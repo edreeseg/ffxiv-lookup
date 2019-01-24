@@ -2,10 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
-import Loading from './Loading';
-import * as privateVar from '../private';
+import Loading from '../Loading';
+import Equipment from './Equipment';
+import * as privateVar from '../../private';
 
 const CharacterDisplay = styled.section`
+    position: relative;
     background: #eee;
     height: 90%;
     width: 80%;
@@ -30,7 +32,6 @@ class CharacterPage extends React.Component {
             + '&extended=1'
             + '&snake_case=1')
             .then(res => {
-                console.log(res);
                 if (res.data.info.character.state === 1){
                     this.setState({
                         error: `Info for character with ID ${this.props.match.params.id} not found.  Please try again in a few minutes.`,
@@ -51,7 +52,7 @@ class CharacterPage extends React.Component {
                             : null,
                         loading: false,
                         error: '',
-                    }, () => console.log(this.state)))
+                    }))
                     .catch(err => this.setState({ average: 'error', loading: false, }));
             })
             .catch(err => console.log(err));
@@ -71,26 +72,30 @@ class CharacterPage extends React.Component {
                             <div>
                                 <div>Character name is {this.state.character.name}</div>
                                 <div>Character server is {this.state.character.server}</div>
-                                <div>
-                                    {
-                                    
-                                    !this.state.average
-                                        ? 'No FFLogs data found.'
-                                        : this.state.average === 'error'
-                                            ? 'FFLogs data could not be obtained.'
-                                            : `Average of all parses is ${this.state.average}.`
-                                    }
-                                    <div>
-                                        <h2>Gear:</h2>
-                                        {this.state.gear.map(x => 
-                                        <img src={`https://xivapi.com${x.item.icon}`}
-                                            title={x.item.name}
-                                            alt={x.item.name}
-                                            key={x.item.id}
-                                            style={{ cursor: 'pointer' }}
-                                        />)}
-                                    </div>
-                                </div>
+                                {
+                                
+                                !this.state.average
+                                    ? 'No FFLogs data found.'
+                                    : this.state.average === 'error'
+                                        ? 'FFLogs data could not be obtained.'
+                                        : `Average of all parses is ${this.state.average}.`
+                                }{console.log(this.state.gear)}
+                                <Equipment
+                                    head={this.state.gear.filter(x => x.item.item_uicategory.name === 'Head')[0]}
+                                    mainHand={this.state.gear.filter(x => x.item.item_uicategory.name.match(/Arm$|Primary\sTool$/i))[0]}
+                                    offHand={this.state.gear.filter(x => x.item.item_uicategory.name.match(/Shield$|Secondary\sTool$/i))[0]}
+                                    hands={this.state.gear.filter(x => x.item.item_uicategory.name === 'Hands')[0]}
+                                    body={this.state.gear.filter(x => x.item.item_uicategory.name === 'Body')[0]}
+                                    waist={this.state.gear.filter(x => x.item.item_uicategory.name === 'Waist')[0]}
+                                    legs={this.state.gear.filter(x => x.item.item_uicategory.name === 'Legs')[0]}
+                                    feet={this.state.gear.filter(x => x.item.item_uicategory.name === 'Feet')[0]}
+                                    ring1={this.state.gear.filter(x => x.item.item_uicategory.name === 'Ring')[0]}
+                                    ring2={this.state.gear.filter(x => x.item.item_uicategory.name === 'Ring')[1]}
+                                    necklace={this.state.gear.filter(x => x.item.item_uicategory.name === 'Necklace')[0]}
+                                    bracelets={this.state.gear.filter(x => x.item.item_uicategory.name === 'Bracelets')[0]}
+                                    earrings={this.state.gear.filter(x => x.item.item_uicategory.name === 'Earrings')[0]}
+                                    crystal={this.state.gear.filter(x => x.item.item_uicategory.name === 'Soul Crystal')[0]}
+                                />
                             </div>
                 )}
             </CharacterDisplay>

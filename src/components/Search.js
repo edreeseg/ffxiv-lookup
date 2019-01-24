@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { searchFetch, changePage } from '../redux/actions';
 
 import Loading from './Loading';
 import SearchResult from './SearchResult';
@@ -76,76 +78,22 @@ class Search extends React.Component {
     state = {
         nameInput: '',
         serverInput: '',
-        currentName: '',
-        currentServer: '',
-        loading: false,
-        response: [],
-        page: '1',
-        maxPages: '',
 
     };
     fetchCharacter = e => {
         e.preventDefault();
-        const name = this.state.nameInput.replace(/\s/, '+').trim().toLowerCase();
-        const server = this.state.serverInput.trim();
-        if (!name) return alert('Please enter a character name.');
-        this.setState((prevState) => {
-            return {
-                nameInput: '',
-                serverInput: '',
-                currentName: prevState.nameInput,
-                currentServer: prevState.serverInput,
-                loading: true,
-                page: '1',
-            };
-        });
-        axios.get('https://xivapi.com/character/search?'
-            + `name=${name}`
-            + `&server=${server}`
-            + `&key=${privateVar.API_Key}`
-            + '&page=1'
-            + '&snake_case=1')
-            .then(res => this.setState(
-                { 
-                    response: res.data.results.sort((a, b) => {
-                        if (a.name === b.name) return a.server > b.server ? 1 : -1;
-                        else return 0;
-                        }), 
-                    loading: false,
-                    maxPages: res.data.pagination.page_total,
-                }))
-            .catch(err => console.log(err));
+        const [name, server] = [this.state.nameInput, this.state.serverInput];
+        if (!name) return alert('Please enter a name.');
+        this.setState({ nameInput: '', serverInput: '' });
+        this.props.searchFetch(name, server);
     }
     handlePageChange = e => {
         e.persist();
-        const name = e.target.getAttribute('name');
-        if (!this.state.maxPages) return;
-        else if (name === 'prev' && this.state.page === '1') return;
-        else if (name === 'next' && this.state.page === String(this.state.maxPages)) return;
-        this.setState((prevState) => {
-            const nextPage = name === 'next' ? Number(prevState.page) + 1 : Number(prevState.page) - 1;
-            return {
-                page: String(nextPage),
-                loading: true,
-            };
-        }, () => {
-            axios.get('https://xivapi.com/character/search?'
-            + `name=${this.state.currentName}`
-            + `&server=${this.state.currentServer}`
-            + `&key=${privateVar.API_Key}`
-            + `&page=${this.state.page}`
-            + '&snake_case=1')
-                .then(res => {
-                    this.setState({
-                        response: res.data.results.sort((a, b) => {
-                            if (a.name === b.name) return a.server > b.server ? 1 : -1;
-                            else return 0;
-                            }),
-                        loading: false,
-                    })
-                })
-                .catch(err => console.log(err));
-        });
+        const direction = e.target.getAttribute('direction');
+        if (!this.props.searchMax) return;
+        else if (direction === 'prev' && this.props.searchPage === 1) return;
+        else if (direction === 'next' && this.props.searchPage === this.props.searchMax) return;
+        else this.props.changePage(direction, this.props.searchName, this.props.searchServer, this.props.searchPage);
     }
     handleChange = e => {
         this.setState({ [e.target.name]: e.target.value });
@@ -153,9 +101,9 @@ class Search extends React.Component {
     render(){
         return (
             <StyledSearch>
-                {this.state.maxPages 
-                ? <PageCount>{this.state.page}/{this.state.maxPages}</PageCount>
-                : null}
+                {this.props.searchMax
+                    ? <PageCount>{this.props.searchPage}/{this.props.searchMax}</PageCount>
+                    : null}
                 <SearchForm onSubmit={this.fetchCharacter}>
                     <input 
                         type="text" 
@@ -171,17 +119,34 @@ class Search extends React.Component {
                         value={this.state.serverInput}
                         onChange={this.handleChange}    
                     />
-                    <button>Search</button>
+                    <button type="submit">Search</button>
                 </SearchForm>
                 <Results>
-                    <Prev className="fas fa-arrow-circle-left" name="prev" onClick={this.handlePageChange}></Prev>
-                    {this.state.loading ? <Loading />
-                    : this.state.response.map(char => <SearchResult key={char.id} data={char} />)}
-                    <Next className="fas fa-arrow-circle-right" name="next" onClick={this.handlePageChange}></Next>
+                <Prev className="fas fa-arrow-circle-left" direction="prev" onClick={this.handlePageChange}></Prev>
+                    {this.props.loading ? <Loading />
+                    : this.props.searchResults.map(char => <SearchResult key={char.id} data={char} />)}
+                    <Next className="fas fa-arrow-circle-right" direction="next" onClick={this.handlePageChange}></Next>
                 </Results>
             </StyledSearch>
         )
     }
 }
 
-export default Search;
+const mapStateToProps = state => {
+    return {
+        loading: state.loading,
+        searchResults: state.searchResults,
+        searchPage: state.searchPage,
+        searchMax: state.searchMax,
+        searchName: state.searchName,
+        searchServer: state.searchServer,
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    {
+        searchFetch,
+        changePage,
+    }
+)(Search);
