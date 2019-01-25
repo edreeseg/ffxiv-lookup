@@ -1,4 +1,4 @@
-import { SEARCH_FETCH, SEARCH_SUCCESS, SEARCH_FAILURE, SEARCH_CHANGE_PAGE, CHARACTER_FETCH } from '../actions';
+import { SEARCH_FETCH, SEARCH_SUCCESS, SEARCH_FAILURE, CHARACTER_FETCH, CHARACTER_FETCH_SUCCESS, CHARACTER_FETCH_FAILURE } from '../actions';
 
 const initialState = {
     searchResults: [],
@@ -11,7 +11,8 @@ const initialState = {
     parses: [],
     parseAverage: '',
     error: null,
-    gear: {},
+    gear: [],
+    attributes: [],
 }
 
 export const characterReducer = (state = initialState, action) => {
@@ -33,6 +34,27 @@ export const characterReducer = (state = initialState, action) => {
                 error: null,
             };
         case SEARCH_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+        case CHARACTER_FETCH:
+            return {
+                ...state,
+                loading: true,
+            };
+        case CHARACTER_FETCH_SUCCESS:
+            const character = action.payload.character;
+            return {
+                ...state,
+                loading: false,
+                error: null,
+                character,
+                gear: Object.values(character.gear_set.gear),
+                attributes: character.gear_set.attributes,
+            }
+        case CHARACTER_FETCH_FAILURE:
             return {
                 ...state,
                 loading: false,

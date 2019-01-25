@@ -1,12 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { searchFetch, changePage } from '../redux/actions';
 
 import Loading from './Loading';
 import SearchResult from './SearchResult';
-import * as privateVar from '../private';
 
 const StyledSearch = styled.section`
     position: relative;

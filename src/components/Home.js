@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Route } from 'react-router-dom';
 
 import Search from './Search';
-import TopBar from './TopBar';
 import CharacterPage from './CharacterPage/CharacterPage';
 
 const HomeContainer = styled.section`
