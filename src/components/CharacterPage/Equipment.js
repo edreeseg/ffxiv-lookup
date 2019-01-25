@@ -8,6 +8,10 @@ const StyledEquipment = styled.section`
     width: 25%;
     display: flex;
     flex-direction: column;
+    background: ${props => props.bg};
+    background-size: auto 100%;
+    padding: 15px;
+    border-radius: 5px;
 
     div {
         width: 100%;
@@ -16,6 +20,7 @@ const StyledEquipment = styled.section`
         margin-bottom: 5px;
 
         img {
+            height: 40px;
             cursor: pointer;
         }
     }
@@ -25,166 +30,171 @@ class Equipment extends React.Component {
     state = {
         mainHand: { 
             item: {
-                name: 'Main Hand Item', icon: ''
+                name: 'Main Hand Item', icon: 'https://i.imgur.com/MGsijcO.png'
             }
         },
         offHand: { 
             item: { 
-                name: 'Off Hand Item', icon: '' 
+                name: 'Off Hand Item', icon: 'https://i.imgur.com/MGsijcO.png' 
             } 
         },
         head: { 
             item: { 
-                name: 'Head Item', icon: '' 
+                name: 'Head Item', icon: 'https://i.imgur.com/MGsijcO.png' 
             } 
         },
         body: { 
             item: { 
-                name: 'Body Item', icon: '' 
+                name: 'Body Item', icon: 'https://i.imgur.com/MGsijcO.png' 
             } 
         },
         hands: {
             item: {
-                name: 'Hands Item', icon: ''
+                name: 'Hands Item', icon: 'https://i.imgur.com/MGsijcO.png'
             }
         },
         waist: { 
             item: { 
-                name: 'Waist Item', icon: '' 
+                name: 'Waist Item', icon: 'https://i.imgur.com/MGsijcO.png' 
             } 
         },
         legs: { 
             item: { 
-                name: 'Legs Item', icon: '' 
+                name: 'Legs Item', icon: 'https://i.imgur.com/MGsijcO.png' 
             } 
         },
         feet: { 
             item: { 
-                name: 'Feet Item', icon: '' 
+                name: 'Feet Item', icon: 'https://i.imgur.com/MGsijcO.png' 
             } 
         },
         earrings: { 
             item: { 
-                name: 'Earrings', icon: '' 
+                name: 'Earrings', icon: 'https://i.imgur.com/MGsijcO.png' 
             } 
         },
         necklace: { 
             item: { 
-                name: 'Necklace', icon: '' 
+                name: 'Necklace', icon: 'https://i.imgur.com/MGsijcO.png' 
             } 
         },
         bracelets: { 
             item: { 
-                name: 'Bracelets', icon: '' 
+                name: 'Bracelets', icon: 'https://i.imgur.com/MGsijcO.png' 
             } 
         },
         ring1: { 
             item: { 
-                name: 'Ring', icon: '' 
+                name: 'Ring', icon: 'https://i.imgur.com/MGsijcO.png' 
             } 
         },
         ring2: { 
             item: { 
-                name: 'Ring', icon: '' 
+                name: 'Ring', icon: 'https://i.imgur.com/MGsijcO.png' 
             } 
         },
         crystal: { 
             item: { 
-                name: 'Soul Crystal', icon: '' 
+                name: 'Soul Crystal', icon: 'https://i.imgur.com/MGsijcO.png' 
             } 
         },
     };
     componentDidMount(){
         for (let key in this.props){
-            if (this.props[key])
+            if (key === 'character'){
                 this.setState({ [key]: this.props[key] });
+            }
+            else if (this.props[key]){
+                this.props[key].item.icon = `https://xivapi.com${this.props[key].item.icon}`;
+                this.setState({ [key]: this.props[key] });
+            }
         }
     }
     render(){
         return (
-            <StyledEquipment>
+            <StyledEquipment bg={this.state.character ? `url("${this.state.character.portrait}") center no-repeat` : '#272627'}>
                 <div>
                     <img 
-                        src={`https://xivapi.com${this.state.mainHand.item.icon}`} 
+                        src={this.state.mainHand.item.icon} 
                         alt={this.state.mainHand.item.name}
                         title={this.state.mainHand.item.name}
                     />
                 </div>
                 <div>
                     <img 
-                        src={`https://xivapi.com${this.state.head.item.icon}`}
+                        src={this.state.head.item.icon}
                         alt={this.state.head.item.name}
                         title={this.state.head.item.name}
                     />
                     <img 
-                        src={`https://xivapi.com${this.state.offHand.item.icon}`} 
+                        src={this.state.offHand.item.icon} 
                         alt={this.state.offHand.item.name}
                         title={this.state.offHand.item.name}
                     />
                 </div>
                 <div>
                     <img 
-                        src={`https://xivapi.com${this.state.body.item.icon}`} 
+                        src={this.state.body.item.icon}
                         alt={this.state.body.item.name}
                         title={this.state.body.item.name}
                     />
                     <img 
-                        src={`https://xivapi.com${this.state.earrings.item.icon}`} 
+                        src={this.state.earrings.item.icon}
                         alt={this.state.earrings.item.name}
                         title={this.state.earrings.item.name}
                     />
                 </div>
                 <div>
                     <img 
-                        src={`https://xivapi.com${this.state.hands.item.icon}`} 
+                        src={this.state.hands.item.icon} 
                         alt={this.state.hands.item.name}
                         title={this.state.hands.item.name}
                     />
                     <img 
-                        src={`https://xivapi.com${this.state.necklace.item.icon}`} 
+                        src={this.state.necklace.item.icon}
                         alt={this.state.necklace.item.name}
                         title={this.state.necklace.item.name}
                     />
                 </div>
                 <div>
                     <img 
-                        src={`https://xivapi.com${this.state.waist.item.icon}`} 
+                        src={this.state.waist.item.icon}
                         alt={this.state.waist.item.name}
                         title={this.state.waist.item.name}
                     />
                     <img 
-                        src={`https://xivapi.com${this.state.bracelets.item.icon}`}
+                        src={this.state.bracelets.item.icon}
                         alt={this.state.bracelets.item.name}
                         title={this.state.bracelets.item.name} 
                     />
                 </div>
                 <div>
                     <img 
-                        src={`https://xivapi.com${this.state.legs.item.icon}`} 
+                        src={this.state.legs.item.icon} 
                         alt={this.state.legs.item.name}
                         title={this.state.legs.item.name}
                     />
                     <img 
-                        src={`https://xivapi.com${this.state.ring1.item.icon}`}
+                        src={this.state.ring1.item.icon}
                         alt={this.state.ring1.item.name}
                         title={this.state.ring1.item.name} 
                     />
                 </div>
                 <div>
                     <img 
-                        src={`https://xivapi.com${this.state.feet.item.icon}`} 
+                        src={this.state.feet.item.icon} 
                         alt={this.state.feet.item.name}
                         title={this.state.feet.item.name}
                     />
                     <img 
-                        src={`https://xivapi.com${this.state.ring2.item.icon}`} 
+                        src={this.state.ring2.item.icon}
                         alt={this.state.ring2.item.name}
                         title={this.state.ring2.item.name}
                     />
                 </div>
                 <div style={ { justifyContent: 'flex-end' } }>
                     <img 
-                        src={`https://xivapi.com${this.state.crystal.item.icon}`} 
+                        src={this.state.crystal.item.icon} 
                         alt={this.state.crystal.item.name}
                         title={this.state.crystal.item.name}
                     />

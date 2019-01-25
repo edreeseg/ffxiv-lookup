@@ -41,11 +41,11 @@ export const changePage =
 
 export const characterFetch = id => dispatch => {
     dispatch({ type: CHARACTER_FETCH });
-    const max = 5;
+    const max = 3; // Attempt only three times before dispatching failure action.
     let request = Promise.reject();
     const rejectDelay = reason => {
         return new Promise((resolve, reject) => {
-            setTimeout(reject.bind(null, reason), 2000);
+            setTimeout(reject.bind(null, reason), 5000); // Retry every 5 seconds, max-age cache-control on API set to 5.
         })
     }
     for (let i = 0; i < max; i++){  // Attempting promise retry so user will not need to reload.

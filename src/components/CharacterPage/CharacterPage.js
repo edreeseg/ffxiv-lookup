@@ -45,6 +45,7 @@ class CharacterPage extends React.Component {
                                     : `Average of all parses is ${this.state.average}.`
                             }
                             <Equipment
+                                character={this.props.character}
                                 head={this.props.gear.filter(x => x.item.item_uicategory.name === 'Head')[0]}
                                 mainHand={this.props.gear.filter(x => x.item.item_uicategory.name.match(/Arm$|Primary\sTool$/i))[0]}
                                 offHand={this.props.gear.filter(x => x.item.item_uicategory.name.match(/Shield$|Secondary\sTool$/i))[0]}

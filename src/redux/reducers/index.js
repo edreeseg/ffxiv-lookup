@@ -42,6 +42,11 @@ export const characterReducer = (state = initialState, action) => {
         case CHARACTER_FETCH:
             return {
                 ...state,
+                searchResults: [],
+                searchName: '',
+                searchServer: '',
+                searchPage: '1',
+                searchMax: '',
                 loading: true,
             };
         case CHARACTER_FETCH_SUCCESS:
