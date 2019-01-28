@@ -5,12 +5,13 @@ import { connect } from 'react-redux';
 import { characterFetch } from '../../redux/actions';
 import Loading from '../Loading';
 import Equipment from './Equipment';
+import Attributes from './Attributes';
 
 const CharacterDisplay = styled.section`
-    position: relative;
     background: #eee;
     height: 90%;
     width: 80%;
+    padding: 15px;
     margin: 0 auto;
 `;
 
@@ -61,6 +62,9 @@ class CharacterPage extends React.Component {
                                 earrings={this.props.gear.filter(x => x.item.item_uicategory.name === 'Earrings')[0]}
                                 crystal={this.props.gear.filter(x => x.item.item_uicategory.name === 'Soul Crystal')[0]}
                             />
+                            <Attributes
+                                data={this.props.attributes} 
+                            />
                         </div>
                     )}
             </CharacterDisplay>
@@ -76,6 +80,7 @@ const mapStateToProps = state => {
         error: state.error,
         parses: state.parses,
         parseAverage: state.parseAverage,
+        attributes: state.attributes,
     };
 }
 

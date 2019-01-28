@@ -3,9 +3,10 @@ import styled from 'styled-components';
 
 const StyledEquipment = styled.section`
     position: absolute;
-    top: 10px;
-    right: 5%;
+    top: 40px;
+    right: calc(10% - 15px);
     width: 25%;
+    min-width: 250px;
     display: flex;
     flex-direction: column;
     background: ${props => props.bg};
@@ -22,7 +23,32 @@ const StyledEquipment = styled.section`
         img {
             height: 40px;
             cursor: pointer;
+            margin: 0 3%;
+            border: 1px solid black;
+            border-radius: 6px;
+
+            &:hover {
+                border-color: yellow;
+            }
         }
+    }
+`;
+
+const JobDisplay = styled.section`
+    position: absolute;
+    top: 0;
+    transform: translateY(-100%);
+    display: flex;
+    align-items: center;
+    z-index: 2;
+    height: 40px;
+
+    img {
+        height: 100%;
+    }
+
+    h3 {
+        font-size: 2rem;
     }
 `;
 
@@ -113,6 +139,13 @@ class Equipment extends React.Component {
     render(){
         return (
             <StyledEquipment bg={this.state.character ? `url("${this.state.character.portrait}") center no-repeat` : '#272627'}>
+            {this.props.character.active_class_job
+                ?   <JobDisplay>
+                        <img src={`https://xivapi.com${this.props.character.active_class_job.job.icon}`} alt="Job icon" />
+                        <h3>{this.props.character.active_class_job.job.name
+                            .replace(/^(\w)/, (x, first) => first.toUpperCase())}</h3>
+                    </JobDisplay>
+                : null }
                 <div>
                     <img 
                         src={this.state.mainHand.item.icon} 
