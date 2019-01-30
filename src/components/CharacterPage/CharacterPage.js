@@ -8,10 +8,12 @@ import Equipment from "./Equipment";
 import Attributes from "./Attributes";
 
 const CharacterDisplay = styled.section`
+  position: relative;
   background: #eee;
   height: 90%;
   width: 80%;
   padding: 15px;
+  border-radius: 10px;
   margin: 0 auto;
 `;
 

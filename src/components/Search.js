@@ -8,12 +8,14 @@ import SearchResult from "./SearchResult";
 
 const StyledSearch = styled.section`
   position: relative;
-  padding: 0 10px;
+  padding: 10px;
   padding-top: 30px;
   min-height: 80%;
   width: 50%;
-  margin: 50px auto;
+  margin: 0 auto;
+  margin-bottom: 50px;
   background: #eee;
+  border-radius: 10px;
 `;
 
 const SearchForm = styled.form`
@@ -69,10 +71,6 @@ const PageCount = styled.span`
   top: 5px;
   right: 50%;
   transform: translateX(-50%);
-`;
-
-const DecorativeDiv = styled.div`
-  background: ${props => `url("${props.src}");`};
 `;
 
 class Search extends React.Component {
@@ -134,7 +132,6 @@ class Search extends React.Component {
           <button type="submit">Search</button>
         </SearchForm>
         <Results>
-          <DecorativeDiv src="https://www.webfx.com/blog/images/cdn.designinstruct.com/files/582-how-to-image-placeholders/generic-image-placeholder.png" />
           <Prev
             className="fas fa-arrow-circle-left"
             direction="prev"

@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const StyledEquipment = styled.section`
   position: absolute;
+  right: 2%;
   top: 40px;
-  right: 12%;
   height: 65vh;
   width: 47.6515vh;
   min-width: 250px;
