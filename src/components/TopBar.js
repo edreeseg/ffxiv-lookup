@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledTopBar = styled.header`
@@ -38,7 +38,9 @@ const TopBar = props => (
   <StyledTopBar>
     <Link to="/">XIV LOOKUP!</Link>
     <Links>
-      <NavLink exact to="/">Home</NavLink>
+      <NavLink exact to="/">
+        Home
+      </NavLink>
       <NavLink to="/search">Search</NavLink>
       <NavLink to="/character">My Character</NavLink>
     </Links>

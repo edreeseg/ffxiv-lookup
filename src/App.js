@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Route } from "react-router-dom";
 
-import Home from './components/HomePage/Home';
-import TopBar from './components/TopBar';
+import Home from "./components/HomePage/Home";
+import TopBar from "./components/TopBar";
 import Search from "./components/Search";
 import CharacterPage from "./components/CharacterPage/CharacterPage";
 

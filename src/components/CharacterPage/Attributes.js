@@ -40,25 +40,26 @@ const Attributes = props => (
 
 export default Attributes;
 
-
 //TRUNC(ROUND(TRUNC((Potency/100)*(WD+TRUNC((BaseDet*JobMod/1000),0))*
 //TRUNC((AP/APDiv+(1-BaseDET/APdiv)),2))*TRUNC(ROUND(1+(DET-BaseDET)/DetDiv,4),3),1))
 
-function truncate(num, d = 0){ // For toFixed without rounding
+function truncate(num, d = 0) {
+  // For toFixed without rounding
   return Number(num.toString().match(new RegExp(`^\\d+.?\\d{0,${d}}`))[0]);
 }
 
-function round(num, d = 0){ 
+function round(num, d = 0) {
   return Number(num.toFixed(d));
 }
 
-function skillDamage(Potency, WD, BaseDET, JobMod, AP, APDiv, DET, DetDiv) { // HW formula
+function skillDamage(Potency, WD, BaseDET, JobMod, AP, APDiv, DET, DetDiv) {
+  // HW formula
   return truncate(
     round(
       truncate(
         (Potency / 100) *
-        (WD + truncate((BaseDET * JobMod) / 1000, 0)) *
-        truncate(AP / APDiv + (1 - BaseDET / APDiv), 2)
+          (WD + truncate((BaseDET * JobMod) / 1000, 0)) *
+          truncate(AP / APDiv + (1 - BaseDET / APDiv), 2)
       ) * truncate(round(1 + (DET - BaseDET) / DetDiv, 4), 3),
       1
     )
