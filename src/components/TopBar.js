@@ -3,12 +3,12 @@ import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledTopBar = styled.header`
-  height: 40px;
+  height: 7%;
   background: #808080;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1%;
 
   a {
     text-decoration: none;
