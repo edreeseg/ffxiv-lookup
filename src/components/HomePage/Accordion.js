@@ -13,61 +13,6 @@ const StyledAccordion = styled.section`
   border-radius: 10px;
   padding: 10px;
 
-  .display-enter {
-    display: block;
-    height: 0;
-    padding: 0;
-
-    * {
-      opacity: 0;
-    }
-  }
-  .display-enter-active {
-    /* Setting timeout to 0 prevents an inital delay, but messes with state */
-    display: block;
-    height: 10rem;
-    transition: height 500ms ease, padding 500ms ease;
-    padding: 10px;
-
-    * {
-      opacity: 1;
-      transition: opacity 250ms ease;
-    }
-  }
-  .display-enter-done {
-    display: block;
-    height: 10rem;
-    transition: height 500ms ease;
-    padding: 10px;
-
-    * {
-      opacity: 1;
-      transition: opacity 250ms ease;
-    }
-  }
-  .display-exit {
-    display: block;
-    height: 10rem;
-    * {
-      opacity: 1;
-    }
-  }
-  .display-exit-active {
-    display: block;
-    height: 0;
-    padding: 0;
-    transition: height 500ms ease, padding 500ms ease;
-
-    * {
-      opacity: 0;
-      transition: opacity 250ms ease;
-    }
-  }
-  .display-exit-done {
-    display: none;
-    height: 0;
-    padding: 0;
-  }
   .blue {
     background: #0d2c40;
   }
@@ -111,11 +56,82 @@ export const Info = styled.div`
   margin: 0 auto;
   border: 1px solid #222;
   border-top: none;
-  padding: 10px;
+  padding: 10px 20px;
 
   &:nth-child(4) {
     border-top: 1px solid #222;
     border-bottom: none;
+  }
+
+  &.display-enter {
+    display: block;
+    height: 0;
+    padding: 0 20px;
+
+    * {
+      position: relative;
+      right: 20px;
+      top: 10px;
+      opacity: 0;
+    }
+  }
+  &.display-enter-active {
+    display: block;
+    height: ${props => `${props.height}px`};
+    padding: 10px 20px;
+    transition: height 500ms ease, padding 500ms ease;
+
+    * {
+      opacity: 1;
+      position: relative;
+      right: 0;
+      top: 0;
+      transition: opacity 300ms ease, right 200ms ease, top 500ms ease;
+    }
+  }
+  &.display-enter-done {
+    display: block;
+    height: ${props => console.log(`${props.height}px`)};
+    padding: 10px 20px;
+
+    * {
+      opacity: 1;
+      position: relative;
+      right: 0;
+      top: 0;
+    }
+  }
+  &.display-exit {
+    display: block;
+    height: ${props => `${props.height}px`};
+    padding: 0 20px;
+    * {
+      opacity: 1;
+      position: relative;
+      right: 0;
+      top: 10px;
+    }
+  }
+  &.display-exit-active {
+    display: block;
+    height: 0;
+    padding: 0 20px;
+    transition: height 500ms ease;
+
+    * {
+      opacity: 0;
+      position: relative;
+      right: 20px;
+      transition: opacity 200ms ease, right 200ms ease;
+    }
+  }
+  &.display-exit-done {
+    display: none;
+    height: 0;
+
+    * {
+      right: 20px;
+    }
   }
 `;
 
