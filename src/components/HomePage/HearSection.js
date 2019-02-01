@@ -11,7 +11,6 @@ export default class Hear extends React.Component {
     this.heightRef = React.createRef();
   }
   componentDidMount() {
-    console.log("mounted");
     // Getting an exact value for height, to make CSS transition animation.
     const panel = this.heightRef.current;
     panel.style.visibility = "hidden";

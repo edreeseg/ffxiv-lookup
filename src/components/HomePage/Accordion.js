@@ -77,7 +77,9 @@ export const Info = styled.div`
   }
   &.display-enter-active {
     display: block;
-    height: ${props => `${props.height}px`};
+    height: ${props =>
+      `${props.height +
+        42}px`}; /* Extra 42 to account for padding and border */
     padding: 10px 20px;
     transition: height 500ms ease, padding 500ms ease;
 
@@ -86,12 +88,12 @@ export const Info = styled.div`
       position: relative;
       right: 0;
       top: 0;
-      transition: opacity 300ms ease, right 200ms ease, top 500ms ease;
+      transition: opacity 500ms ease-in, right 500ms ease-in, top 500ms ease;
     }
   }
   &.display-enter-done {
     display: block;
-    height: ${props => console.log(`${props.height}px`)};
+    height: ${props => `${props.height + 42}px`};
     padding: 10px 20px;
 
     * {
@@ -103,7 +105,7 @@ export const Info = styled.div`
   }
   &.display-exit {
     display: block;
-    height: ${props => `${props.height}px`};
+    height: ${props => `${props.height + 42}px`};
     padding: 0 20px;
     * {
       opacity: 1;
