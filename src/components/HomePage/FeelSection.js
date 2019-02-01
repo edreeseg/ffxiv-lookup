@@ -4,18 +4,21 @@ import { Info } from "./Accordion";
 
 export default class Feel extends React.Component {
   componentDidMount() {
-    console.log("mounted");
+    console.log(this.props.index === this.props.current);
   }
   render() {
-    return this.props.index === this.props.current ? (
+    return (
       <CSSTransition
         in={this.props.index === this.props.current}
-        timeout={1000}
+        timeout={{ enter: 500, exit: 500 }}
         classNames="display"
-        onEnter={() => console.log("entered")}
+        onEnter={e => (e.style.display = "block")}
+        onExited={e => (e.style.display = "none")}
       >
-        <Info {...this.props}>TESTING 2 SEPARATE</Info>
+        <Info {...this.props}>
+          <h3>TESTING 2 SEPARATE</h3>
+        </Info>
       </CSSTransition>
-    ) : null;
+    );
   }
 }

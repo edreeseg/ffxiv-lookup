@@ -16,7 +16,7 @@ export default class Hear extends React.Component {
         onExited={e => (e.style.display = "none")}
       >
         <Info {...this.props}>
-          <h3>TESTING 2 SEPARATE</h3>
+          <h3>TESTING 1 SEPARATE</h3>
         </Info>
       </CSSTransition>
     );

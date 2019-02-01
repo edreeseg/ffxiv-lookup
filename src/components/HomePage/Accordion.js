@@ -17,16 +17,31 @@ const StyledAccordion = styled.section`
     display: block;
     height: 0;
     padding: 0;
+    border: none;
 
     * {
       opacity: 0;
     }
   }
-  .display-enter-done {
+  .display-enter-active {
     /* Setting timeout to 0 prevents an inital delay, but messes with state */
     display: block;
     height: 10rem;
+    transition: height 500ms ease, padding 500ms ease;
+    border: 1px solid #222;
+    padding: 10px;
+
+    * {
+      opacity: 1;
+      transition: opacity 250ms ease;
+    }
+  }
+  .display-enter-done {
+    display: block;
+    height: 10rem;
     transition: height 500ms ease;
+    border: 1px solid #222;
+    padding: 10px;
 
     * {
       opacity: 1;
@@ -36,6 +51,7 @@ const StyledAccordion = styled.section`
   .display-exit {
     display: block;
     height: 10rem;
+    border: 1px solid #222;
     * {
       opacity: 1;
     }
@@ -44,12 +60,19 @@ const StyledAccordion = styled.section`
     display: block;
     height: 0;
     padding: 0;
+    border-top: none;
+    border-bottom: none;
     transition: height 500ms ease, padding 500ms ease;
 
     * {
       opacity: 0;
       transition: opacity 250ms ease;
     }
+  }
+  .display-exit-done {
+    display: none;
+    height: 0;
+    padding: 0;
   }
   .blue {
     background: #0d2c40;
