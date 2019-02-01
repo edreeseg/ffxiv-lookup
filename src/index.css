@@ -137,7 +137,7 @@ html,
 body {
   height: 100%;
   box-sizing: border-box;
-  font-family: "Roboto", Arial, sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 html {
   font-size: 62.5%;

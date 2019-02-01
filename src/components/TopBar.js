@@ -26,10 +26,11 @@ const Links = styled.nav`
   a {
     text-decoration: none;
     color: #eee;
+    font-weight: 300;
   }
 
   .active {
-    font-weight: bold;
+    font-weight: 700;
     font-size: 1.7rem;
   }
 `;

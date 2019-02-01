@@ -5,8 +5,6 @@ import Hear from "./HearSection";
 import Feel from "./FeelSection";
 import Think from "./ThinkSection";
 
-// Should implement React Transition Group to animate opening and closing of panels.
-
 const StyledAccordion = styled.section`
   width: 90%;
   margin: 0 auto;
@@ -15,6 +13,44 @@ const StyledAccordion = styled.section`
   border-radius: 10px;
   padding: 10px;
 
+  .display-enter {
+    display: block;
+    height: 0;
+    padding: 0;
+
+    * {
+      opacity: 0;
+    }
+  }
+  .display-enter-done {
+    /* Setting timeout to 0 prevents an inital delay, but messes with state */
+    display: block;
+    height: 10rem;
+    transition: height 500ms ease;
+
+    * {
+      opacity: 1;
+      transition: opacity 250ms ease;
+    }
+  }
+  .display-exit {
+    display: block;
+    height: 10rem;
+    * {
+      opacity: 1;
+    }
+  }
+  .display-exit-active {
+    display: block;
+    height: 0;
+    padding: 0;
+    transition: height 500ms ease, padding 500ms ease;
+
+    * {
+      opacity: 0;
+      transition: opacity 250ms ease;
+    }
+  }
   .blue {
     background: #0d2c40;
   }
@@ -22,13 +58,12 @@ const StyledAccordion = styled.section`
     background: #f15a30;
   }
   .green {
-    background: #2de0ad;
-    color: #222;
+    background: #19a67e;
   }
 `;
 
 const AccordionSection = styled.div`
-  height: 3rem;
+  height: 7rem;
   width: 90%;
   margin: 0 auto;
   padding: 0 10px;
@@ -38,33 +73,23 @@ const AccordionSection = styled.div`
   cursor: pointer;
   color: #eee;
   border: 1px solid #222;
-
-  &:nth-child(3) {
-    border-top: none;
-    border-bottom: ${props =>
-      props.index === props.current ? "1px solid #222" : "none"};
-  }
+  font-size: 4rem;
+  font-weight: 300;
 
   &:hover h3 {
     pointer-events: none;
     user-select: none;
-    color: gray;
+    font-size: 4.2rem;
   }
 `;
 
 export const Info = styled.div`
-  display: ${props => (props.index === props.current ? "block" : "none")};
   width: 90%;
-  height: 10rem;
+  display: none;
   margin: 0 auto;
   border: 1px solid #222;
   border-top: none;
   padding: 10px;
-
-  &:nth-child(4) {
-    border-bottom: ${props =>
-      props.index === props.current ? "none" : "1px solid #222"};
-  }
 `;
 
 class Accordion extends React.Component {
