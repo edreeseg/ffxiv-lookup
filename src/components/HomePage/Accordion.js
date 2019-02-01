@@ -17,7 +17,6 @@ const StyledAccordion = styled.section`
     display: block;
     height: 0;
     padding: 0;
-    border: none;
 
     * {
       opacity: 0;
@@ -28,7 +27,6 @@ const StyledAccordion = styled.section`
     display: block;
     height: 10rem;
     transition: height 500ms ease, padding 500ms ease;
-    border: 1px solid #222;
     padding: 10px;
 
     * {
@@ -40,7 +38,6 @@ const StyledAccordion = styled.section`
     display: block;
     height: 10rem;
     transition: height 500ms ease;
-    border: 1px solid #222;
     padding: 10px;
 
     * {
@@ -51,7 +48,6 @@ const StyledAccordion = styled.section`
   .display-exit {
     display: block;
     height: 10rem;
-    border: 1px solid #222;
     * {
       opacity: 1;
     }
@@ -60,8 +56,6 @@ const StyledAccordion = styled.section`
     display: block;
     height: 0;
     padding: 0;
-    border-top: none;
-    border-bottom: none;
     transition: height 500ms ease, padding 500ms ease;
 
     * {
@@ -99,6 +93,11 @@ const AccordionSection = styled.div`
   font-size: 4rem;
   font-weight: 300;
 
+  &:nth-child(3) {
+    border-top: none;
+    border-bottom: none;
+  }
+
   &:hover h3 {
     pointer-events: none;
     user-select: none;
@@ -113,6 +112,11 @@ export const Info = styled.div`
   border: 1px solid #222;
   border-top: none;
   padding: 10px;
+
+  &:nth-child(4) {
+    border-top: 1px solid #222;
+    border-bottom: none;
+  }
 `;
 
 class Accordion extends React.Component {

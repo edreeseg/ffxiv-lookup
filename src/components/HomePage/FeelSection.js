@@ -3,14 +3,11 @@ import { CSSTransition } from "react-transition-group";
 import { Info } from "./Accordion";
 
 export default class Feel extends React.Component {
-  componentDidMount() {
-    console.log(this.props.index === this.props.current);
-  }
   render() {
     return (
       <CSSTransition
         in={this.props.index === this.props.current}
-        timeout={{ enter: 500, exit: 500 }}
+        timeout={500}
         classNames="display"
         onEnter={e => (e.style.display = "block")}
         onExited={e => (e.style.display = "none")}
