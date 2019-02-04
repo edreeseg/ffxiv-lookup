@@ -25,8 +25,13 @@ class Verify extends React.Component {
     this.setState({ number });
   }
   componentDidUpdate(prevProps, prevState) {
-    if (!prevProps.verifiedCharacterId && this.props.verifiedCharacterId)
+    if (!prevProps.verifiedCharacterId && this.props.verifiedCharacterId) {
+      localStorage.setItem(
+        "ffxiv-lookup-saved-character",
+        JSON.stringify(this.props.verifiedCharacterId)
+      );
       this.props.history.push("/character");
+    }
   }
   verifyCharacter = () => {
     console.log("id", this.props.id, "string", this.state.number);
@@ -52,7 +57,9 @@ class Verify extends React.Component {
               following number into that character's Lodestone profile before
               attempting login:
             </p>
+            <br />
             <p>{this.state.number}</p>
+            <br />
             <button onClick={this.verifyCharacter}>Verify</button>
             {this.props.error ? (
               <p style={{ color: "red" }}>{this.props.error}</p>

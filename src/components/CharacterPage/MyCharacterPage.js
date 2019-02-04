@@ -18,12 +18,18 @@ const CharacterDisplay = styled.section`
 `;
 
 class MyCharacterPage extends React.Component {
+  state = {
+    id: null
+  };
   componentDidMount() {
-    if (this.props.verifiedCharacterId)
-      this.props.characterFetch(this.props.verifiedCharacterId);
+    const id = JSON.parse(localStorage.getItem("ffxiv-lookup-saved-character"));
+    if (id) {
+      this.props.characterFetch(id);
+      this.setState({ id });
+    }
   }
   render() {
-    return this.props.verifiedCharacterId ? (
+    return this.state.id ? (
       <CharacterDisplay>
         {this.props.loading ? (
           <Loading />
