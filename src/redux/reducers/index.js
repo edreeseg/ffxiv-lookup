@@ -4,7 +4,11 @@ import {
   SEARCH_FAILURE,
   CHARACTER_FETCH,
   CHARACTER_FETCH_SUCCESS,
-  CHARACTER_FETCH_FAILURE
+  CHARACTER_FETCH_FAILURE,
+  VERIFY_START,
+  VERIFY_SUCCESS,
+  VERIFY_FAILURE,
+  VERIFY_ERROR
 } from "../actions";
 
 const initialState = {
@@ -14,12 +18,14 @@ const initialState = {
   searchPage: "1",
   searchMax: "",
   loading: false,
+  loginActive: false,
   character: {},
   parses: [],
   parseAverage: "",
   error: null,
   gear: [],
-  attributes: []
+  attributes: [],
+  verifiedCharacterId: null
 };
 
 export const characterReducer = (state = initialState, action) => {
@@ -71,6 +77,31 @@ export const characterReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload
+      };
+    case VERIFY_START:
+      return {
+        ...state,
+        loading: true
+      };
+    case VERIFY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        verifiedCharacterId: action.payload,
+        error: null
+      };
+    case VERIFY_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error:
+          "Verification unsuccessful - provided number not found on Lodestone profile.  Please add number to Lodestone character profile and try again."
+      };
+    case VERIFY_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: "Unable to verify character due to error.  Please try again."
       };
     default:
       return state;

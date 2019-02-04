@@ -6,6 +6,7 @@ import Home from "./components/HomePage/Home";
 import TopBar from "./components/TopBar";
 import Search from "./components/Search";
 import CharacterPage from "./components/CharacterPage/CharacterPage";
+import MyCharacterPage from "./components/CharacterPage/MyCharacterPage";
 
 const Container = styled.section`
   height: 100%;
@@ -19,6 +20,7 @@ class App extends React.Component {
         <TopBar />
         <Route exact path="/" component={Home} />
         <Route exact path="/search" render={props => <Search {...props} />} />
+        <Route exact path="/character" component={MyCharacterPage} />
         <Route
           path="/character/:id"
           render={props => (

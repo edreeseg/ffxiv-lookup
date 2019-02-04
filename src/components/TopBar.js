@@ -43,7 +43,9 @@ const TopBar = props => (
         Home
       </NavLink>
       <NavLink to="/search">Search</NavLink>
-      <NavLink to="/character">My Character</NavLink>
+      <NavLink exact to="/character">
+        My Character
+      </NavLink>
     </Links>
   </StyledTopBar>
 );

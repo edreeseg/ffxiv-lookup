@@ -6,7 +6,6 @@ import { characterFetch } from "../../redux/actions";
 import Loading from "../Loading";
 import Equipment from "./Equipment";
 import Attributes from "./Attributes";
-import Verify from "./Verify";
 
 const CharacterDisplay = styled.section`
   position: relative;
@@ -18,20 +17,13 @@ const CharacterDisplay = styled.section`
   margin: 0 auto;
 `;
 
-class CharacterPage extends React.Component {
-  state = {
-    verify: false
-  };
+class MyCharacterPage extends React.Component {
   componentDidMount() {
-    this.fetchCharacterData();
+    if (this.props.verifiedCharacterId)
+      this.props.characterFetch(this.props.verifiedCharacterId);
   }
-  fetchCharacterData = () => {
-    this.props.characterFetch(this.props.match.params.id);
-  };
   render() {
-    return this.state.verify ? (
-      <Verify history={this.props.history} id={this.props.match.params.id} />
-    ) : (
+    return this.props.verifiedCharacterId ? (
       <CharacterDisplay>
         {this.props.loading ? (
           <Loading />
@@ -133,6 +125,11 @@ class CharacterPage extends React.Component {
           Claim this character
         </button>
       </CharacterDisplay>
+    ) : (
+      <CharacterDisplay>
+        CHARACTER NOT VERIFIED. PLEASE FIND CHARACTER VIA SEARCH TOOL AND GO
+        THROUGH VERIFICATION PROCESS.
+      </CharacterDisplay>
     );
   }
 }
@@ -145,7 +142,8 @@ const mapStateToProps = state => {
     error: state.error,
     parses: state.parses,
     parseAverage: state.parseAverage,
-    attributes: state.attributes
+    attributes: state.attributes,
+    verifiedCharacterId: state.verifiedCharacterId
   };
 };
 
@@ -154,4 +152,4 @@ export default connect(
   {
     characterFetch
   }
-)(CharacterPage);
+)(MyCharacterPage);

@@ -7,6 +7,10 @@ export const CHARACTER_FETCH = "CHARACTER_FETCH";
 export const CHARACTER_FETCH_SUCCESS = "CHARACTER_FETCH_SUCCESS";
 export const CHARACTER_FETCH_FAILURE = "CHARACTER_FETCH_FAILURE";
 export const CHARACTER_FETCH_RETRY = "CHARACTER_FETCH_RETRY";
+export const VERIFY_START = "VERIFY_START";
+export const VERIFY_SUCCESS = "VERIFY_SUCCESS"; // String found in profile
+export const VERIFY_FAILURE = "VERIFY_FAILURE"; // String not found in profile
+export const VERIFY_ERROR = "VERIFY_ERROR"; // Error on API call
 
 export const searchFetch = (nameInput, serverInput) => dispatch => {
   dispatch({ type: SEARCH_FETCH });
@@ -84,4 +88,20 @@ export const characterFetch = id => dispatch => {
   request
     .then(res => dispatch({ type: CHARACTER_FETCH_SUCCESS, payload: res.data }))
     .catch(err => dispatch({ type: CHARACTER_FETCH_FAILURE, payload: err }));
+};
+
+export const handleVerification = (id, string) => dispatch => {
+  dispatch({ type: VERIFY_START });
+  axios
+    .get(
+      `https://xivapi.com/character/${id}/verification` +
+        `?token=${string}` +
+        "&key=437aa052c2664777a4d2a1bd" +
+        "&snake_case=1"
+    )
+    .then(res => {
+      if (res.data.pass) dispatch({ type: VERIFY_SUCCESS, payload: id });
+      else dispatch({ type: VERIFY_FAILURE });
+    })
+    .catch(err => dispatch({ type: VERIFY_ERROR, payload: err }));
 };
