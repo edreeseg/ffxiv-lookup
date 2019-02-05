@@ -18,18 +18,11 @@ const CharacterDisplay = styled.section`
 `;
 
 class MyCharacterPage extends React.Component {
-  state = {
-    id: null
-  };
-  componentDidMount() {
-    const id = JSON.parse(localStorage.getItem("ffxiv-lookup-saved-character"));
-    if (id) {
-      this.props.characterFetch(id);
-      this.setState({ id });
-    }
+  componentDidMount(){
+    console.log(this.props);
   }
   render() {
-    return this.state.id ? (
+    return this.props.savedCharacter ? (
       <CharacterDisplay>
         {this.props.loading ? (
           <Loading />
@@ -40,15 +33,15 @@ class MyCharacterPage extends React.Component {
           </div>
         ) : (
           <div>
-            <div>Character name is {this.props.character.name}</div>
-            <div>Character server is {this.props.character.server}</div>
+            <div>Character name is {this.props.savedCharacter.name}</div>
+            <div>Character server is {this.props.savedCharacter.server}</div>
             {!this.props.average
               ? "No FFLogs data found."
               : this.props.average === "error"
               ? "FFLogs data could not be obtained."
               : `Average of all parses is ${this.state.average}.`}
             <Equipment
-              character={this.props.character}
+              character={this.props.savedCharacter}
               head={
                 this.props.gear.filter(
                   x => x.item.item_uicategory.name === "Head"
@@ -123,13 +116,6 @@ class MyCharacterPage extends React.Component {
             <Attributes data={this.props.attributes} />
           </div>
         )}
-        <button
-          onClick={() =>
-            this.setState(prevState => ({ verify: !prevState.verify }))
-          }
-        >
-          Claim this character
-        </button>
       </CharacterDisplay>
     ) : (
       <CharacterDisplay>
@@ -149,13 +135,13 @@ const mapStateToProps = state => {
     parses: state.parses,
     parseAverage: state.parseAverage,
     attributes: state.attributes,
-    verifiedCharacterId: state.verifiedCharacterId
+    savedCharacter: state.savedCharacter,
   };
 };
 
 export default connect(
   mapStateToProps,
   {
-    characterFetch
+    characterFetch,
   }
 )(MyCharacterPage);

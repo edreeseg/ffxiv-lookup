@@ -144,7 +144,7 @@ class Equipment extends React.Component {
     for (let key in this.props) {
       if (key === "character") {
         this.setState({ [key]: this.props[key] });
-      } else if (this.props[key]) {
+      } else if (this.props[key] && !(this.props[key].match(/^https/)||[]).length) {
         this.props[key].item.icon = `https://xivapi.com${
           this.props[key].item.icon
         }`;

@@ -1,4 +1,6 @@
 import {
+  FETCH_ON_LOAD,
+  FETCH_ON_LOAD_ERROR,
   SEARCH_FETCH,
   SEARCH_SUCCESS,
   SEARCH_FAILURE,
@@ -25,11 +27,26 @@ const initialState = {
   error: null,
   gear: [],
   attributes: [],
-  verifiedCharacterId: null
+  verifiedCharacterId: null,
+  savedCharacter: null,
 };
 
 export const characterReducer = (state = initialState, action) => {
   switch (action.type) {
+    case FETCH_ON_LOAD:
+    const savedCharacter = action.payload.character;
+      return {
+        ...state,
+        error: null,
+        savedCharacter,
+        gear: Object.values(savedCharacter.gear_set.gear),
+        attributes: savedCharacter.gear_set.attributes
+      };
+    case FETCH_ON_LOAD_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      };
     case SEARCH_FETCH:
       return {
         ...state,

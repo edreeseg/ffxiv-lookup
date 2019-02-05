@@ -23,7 +23,6 @@ class Home extends React.Component {
   state = {
     loginActive: false
   };
-  handleLoginRequest = () => {};
   render() {
     return (
       <HomeContainer>
