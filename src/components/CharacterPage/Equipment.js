@@ -140,15 +140,24 @@ class Equipment extends React.Component {
       }
     }
   };
-  componentDidMount() {
-    for (let key in this.props) {
-      if (key === "character") {
-        this.setState({ [key]: this.props[key] });
-      } else if (this.props[key] && !(this.props[key].match(/^https/)||[]).length) {
-        this.props[key].item.icon = `https://xivapi.com${
-          this.props[key].item.icon
-        }`;
-        this.setState({ [key]: this.props[key] });
+  componentDidMount() {}
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      JSON.stringify(prevProps.character) !==
+      JSON.stringify(this.props.character)
+    ) {
+      for (let key in this.props) {
+        if (key === "character") {
+          this.setState({ [key]: this.props[key] });
+        } else if (
+          this.props[key] &&
+          this.state[key].item.icon.includes("imgur")
+        ) {
+          this.props[key].item.icon = `https://xivapi.com${
+            this.props[key].item.icon
+          }`;
+          this.setState({ [key]: this.props[key] });
+        }
       }
     }
   }
@@ -156,8 +165,8 @@ class Equipment extends React.Component {
     return (
       <StyledEquipment
         bg={
-          this.state.character
-            ? `url("${this.state.character.portrait}") center no-repeat`
+          this.props.character
+            ? `url("${this.props.character.portrait}") center no-repeat`
             : "#272627"
         }
       >
@@ -170,10 +179,10 @@ class Equipment extends React.Component {
               alt="Job icon"
             />
             <h3>
-              {this.props.character.active_class_job.job.name.replace(
-                /^(\w)/,
-                (x, first) => first.toUpperCase()
-              )}
+              {this.props.character.active_class_job.job.name
+                .split(" ")
+                .map(x => x.replace(/^(\w)/, (x, first) => first.toUpperCase()))
+                .join(" ")}
             </h3>
           </JobDisplay>
         ) : null}

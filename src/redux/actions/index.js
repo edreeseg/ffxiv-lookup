@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const FETCH_ON_LOAD = 'FETCH_ON_LOAD';
-export const FETCH_ON_LOAD_ERROR = 'FETCH_ON_LOAD_ERROR';
+export const FETCH_ON_LOAD = "FETCH_ON_LOAD";
+export const FETCH_ON_LOAD_ERROR = "FETCH_ON_LOAD_ERROR";
 export const SEARCH_FETCH = "SEARCH_FETCH";
 export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
 export const SEARCH_FAILURE = "SEARCH_FAILURE";
@@ -17,15 +17,16 @@ export const VERIFY_ERROR = "VERIFY_ERROR"; // Error on API call
 export const loadSavedCharacter = () => dispatch => {
   const id = JSON.parse(localStorage.getItem("ffxiv-lookup-saved-character"));
   if (!id) return;
-  axios.get(
-    `https://xivapi.com/character/${id}` +
-      `?key=437aa052c2664777a4d2a1bd` +
-      "&extended=1" +
-      "&snake_case=1"
-  )
+  axios
+    .get(
+      `https://xivapi.com/character/${id}` +
+        `?key=437aa052c2664777a4d2a1bd` +
+        "&extended=1" +
+        "&snake_case=1"
+    )
     .then(res => dispatch({ type: FETCH_ON_LOAD, payload: res.data }))
-    .catch(err => dispatch({ FETCH_ON_LOAD_ERROR, payload: err }));
-}
+    .catch(err => dispatch({ type: FETCH_ON_LOAD_ERROR, payload: err }));
+};
 
 export const searchFetch = (nameInput, serverInput) => dispatch => {
   dispatch({ type: SEARCH_FETCH });

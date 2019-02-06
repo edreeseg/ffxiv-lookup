@@ -28,18 +28,17 @@ const initialState = {
   gear: [],
   attributes: [],
   verifiedCharacterId: null,
-  savedCharacter: null,
+  savedCharacter: null
 };
 
 export const characterReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ON_LOAD:
-    const savedCharacter = action.payload.character;
+      const savedCharacter = action.payload.character;
       return {
         ...state,
         error: null,
         savedCharacter,
-        gear: Object.values(savedCharacter.gear_set.gear),
         attributes: savedCharacter.gear_set.attributes
       };
     case FETCH_ON_LOAD_ERROR:

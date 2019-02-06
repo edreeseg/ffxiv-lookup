@@ -20,13 +20,40 @@ const CharacterDisplay = styled.section`
 
 class CharacterPage extends React.Component {
   state = {
-    verify: false
+    verify: false,
+    id: this.props.match.params.id,
+    character: {},
+    gear: [],
+    attributes: []
   };
   componentDidMount() {
-    this.fetchCharacterData();
+    if (this.state.id) this.fetchCharacterData();
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.id &&
+      JSON.stringify(prevState.character) !==
+        JSON.stringify(this.props.character)
+    ) {
+      this.setState({
+        character: this.props.character,
+        gear: Object.values(this.props.character.gear_set.gear),
+        attributes: this.props.character.gear_set.attributes
+      });
+    } else if (
+      this.props.savedCharacter !== null &&
+      JSON.stringify(this.state.character) !==
+        JSON.stringify(this.props.savedCharacter)
+    ) {
+      this.setState({
+        character: this.props.savedCharacter,
+        gear: Object.values(this.props.savedCharacter.gear_set.gear),
+        attributes: this.props.savedCharacter.gear_set.attributes
+      });
+    }
   }
   fetchCharacterData = () => {
-    this.props.characterFetch(this.props.match.params.id);
+    this.props.characterFetch(this.state.id);
   };
   render() {
     return this.state.verify ? (
@@ -42,87 +69,87 @@ class CharacterPage extends React.Component {
           </div>
         ) : (
           <div>
-            <div>Character name is {this.props.character.name}</div>
-            <div>Character server is {this.props.character.server}</div>
+            <div>Character name is {this.state.character.name}</div>
+            <div>Character server is {this.state.character.server}</div>
             {!this.props.average
               ? "No FFLogs data found."
               : this.props.average === "error"
               ? "FFLogs data could not be obtained."
               : `Average of all parses is ${this.state.average}.`}
             <Equipment
-              character={this.props.character}
+              character={this.state.character}
               head={
-                this.props.gear.filter(
+                this.state.gear.filter(
                   x => x.item.item_uicategory.name === "Head"
                 )[0]
               }
               mainHand={
-                this.props.gear.filter(x =>
+                this.state.gear.filter(x =>
                   x.item.item_uicategory.name.match(/Arm$|Primary\sTool$/i)
                 )[0]
               }
               offHand={
-                this.props.gear.filter(x =>
+                this.state.gear.filter(x =>
                   x.item.item_uicategory.name.match(/Shield$|Secondary\sTool$/i)
                 )[0]
               }
               hands={
-                this.props.gear.filter(
+                this.state.gear.filter(
                   x => x.item.item_uicategory.name === "Hands"
                 )[0]
               }
               body={
-                this.props.gear.filter(
+                this.state.gear.filter(
                   x => x.item.item_uicategory.name === "Body"
                 )[0]
               }
               waist={
-                this.props.gear.filter(
+                this.state.gear.filter(
                   x => x.item.item_uicategory.name === "Waist"
                 )[0]
               }
               legs={
-                this.props.gear.filter(
+                this.state.gear.filter(
                   x => x.item.item_uicategory.name === "Legs"
                 )[0]
               }
               feet={
-                this.props.gear.filter(
+                this.state.gear.filter(
                   x => x.item.item_uicategory.name === "Feet"
                 )[0]
               }
               ring1={
-                this.props.gear.filter(
+                this.state.gear.filter(
                   x => x.item.item_uicategory.name === "Ring"
                 )[0]
               }
               ring2={
-                this.props.gear.filter(
+                this.state.gear.filter(
                   x => x.item.item_uicategory.name === "Ring"
                 )[1]
               }
               necklace={
-                this.props.gear.filter(
+                this.state.gear.filter(
                   x => x.item.item_uicategory.name === "Necklace"
                 )[0]
               }
               bracelets={
-                this.props.gear.filter(
+                this.state.gear.filter(
                   x => x.item.item_uicategory.name === "Bracelets"
                 )[0]
               }
               earrings={
-                this.props.gear.filter(
+                this.state.gear.filter(
                   x => x.item.item_uicategory.name === "Earrings"
                 )[0]
               }
               crystal={
-                this.props.gear.filter(
+                this.state.gear.filter(
                   x => x.item.item_uicategory.name === "Soul Crystal"
                 )[0]
               }
             />
-            <Attributes data={this.props.attributes} />
+            <Attributes data={this.state.attributes} />
           </div>
         )}
         <button
@@ -139,13 +166,12 @@ class CharacterPage extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    savedCharacter: state.savedCharacter,
     character: state.character,
-    gear: state.gear,
     loading: state.loading,
     error: state.error,
     parses: state.parses,
-    parseAverage: state.parseAverage,
-    attributes: state.attributes
+    parseAverage: state.parseAverage
   };
 };
 
