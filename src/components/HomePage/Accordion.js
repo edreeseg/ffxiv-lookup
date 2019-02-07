@@ -47,6 +47,7 @@ class Accordion extends React.Component {
       <StyledAccordion>
         {this.state.senses.map((sense, index) => (
           <AccordionSection
+            key={sense.text}
             sense={sense}
             index={String(index)}
             current={this.state.index}

@@ -31,7 +31,7 @@ const StyledTitle = styled.div`
 
 export const Info = styled.div`
   width: 90%;
-  display: none;
+  display: ${props => (props.open ? "block" : "none")};
   margin: 0 auto;
   border: 1px solid #222;
   border-top: none;
@@ -56,9 +56,7 @@ export const Info = styled.div`
   }
   &.display-enter-active {
     display: block;
-    height: ${props =>
-      `${props.height +
-        42}px`}; /* Extra 42 to account for padding and border */
+    height: ${props => `${props.height}px`};
     padding: 10px 20px;
     transition: height 500ms ease, padding 500ms ease;
 
@@ -72,7 +70,7 @@ export const Info = styled.div`
   }
   &.display-enter-done {
     display: block;
-    height: ${props => `${props.height + 42}px`};
+    height: ${props => `${props.height}px`};
     padding: 10px 20px;
 
     * {
@@ -84,7 +82,7 @@ export const Info = styled.div`
   }
   &.display-exit {
     display: block;
-    height: ${props => `${props.height + 42}px`};
+    height: ${props => `${props.height}px`};
     padding: 0 20px;
     * {
       opacity: 1;
@@ -120,7 +118,8 @@ export default class AccordionSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      height: 0
+      height: 0,
+      open: false
     };
     this.heightRef = React.createRef();
   }
@@ -133,14 +132,13 @@ export default class AccordionSection extends React.Component {
   }
   retrieveHeight = () => {
     const panel = this.heightRef.current;
-    const open = panel.style.display === "block" ? true : false;
     panel.style.visibility = "hidden";
     panel.style.position = "absolute";
     panel.style.display = "block";
+    panel.style.height = "auto";
     const height = panel.offsetHeight;
     this.setState({ height });
     panel.removeAttribute("style");
-    if (open) panel.style.display = "block";
   };
   render() {
     return (
@@ -156,10 +154,18 @@ export default class AccordionSection extends React.Component {
           in={this.props.index === this.props.current}
           timeout={500}
           classNames="display"
-          onEnter={e => (e.style.display = "block")}
-          onExited={e => (e.style.display = "none")}
+          onEntered={e => {
+            this.setState({ open: true });
+            this.retrieveHeight();
+          }}
+          onExited={e => this.setState({ open: false })}
         >
-          <Info {...this.props} ref={this.heightRef} height={this.state.height}>
+          <Info
+            {...this.props}
+            ref={this.heightRef}
+            height={this.state.height}
+            open={this.state.open}
+          >
             <span>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
               sit amet commodo sapien, in facilisis ex. Pellentesque eu libero
