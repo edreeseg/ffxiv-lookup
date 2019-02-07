@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -7,11 +6,8 @@ import { loadSavedCharacter } from "./redux/actions";
 import Home from "./components/HomePage/Home";
 import TopBar from "./components/TopBar";
 import Search from "./components/Search";
+import Login from "./components/Login";
 import CharacterPage from "./components/CharacterPage/CharacterPage";
-
-const Container = styled.section`
-  height: 100%;
-`;
 
 class App extends React.Component {
   componentDidMount() {
@@ -19,20 +15,21 @@ class App extends React.Component {
   }
   render() {
     return (
-      <Container>
+      <>
         <TopBar />
         <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/search" render={props => <Search {...props} />} />
         <Route
           exact
           path="/character"
-          render={props => <CharacterPage {...props} />}
+          render={props => <CharacterPage {...props} saved />}
         />
         <Route
           path="/character/:id"
           render={props => <CharacterPage {...props} />}
         />
-      </Container>
+      </>
     );
   }
 }

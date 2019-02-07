@@ -1,10 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Accordion from "./Accordion";
-import Login from "./Login";
-
-const HomeContainer = styled.section``;
 
 const LoginButton = styled.span`
   position: fixed;
@@ -19,41 +16,13 @@ const LoginButton = styled.span`
   }
 `;
 
-class Home extends React.Component {
-  state = {
-    loginActive: false
-  };
-  render() {
-    return (
-      <HomeContainer>
-        {this.state.loginActive ? (
-          <Login />
-        ) : (
-          <div>
-            <Accordion />
-          </div>
-        )}
-        <LoginButton
-          className={`fas ${
-            this.state.loginActive ? "fa-undo-alt" : "fa-sign-in-alt"
-          }`}
-          title="Login"
-          onClick={() =>
-            this.setState(prevState => ({
-              loginActive: !prevState.loginActive
-            }))
-          }
-        />
-      </HomeContainer>
-    );
-  }
-}
+const Home = props => (
+  <>
+    <Accordion />
+    <Link to="/login">
+      <LoginButton className="fas fa-sign-in-alt" />
+    </Link>
+  </>
+);
 
-const mapStateToProps = state => {
-  return {};
-};
-
-export default connect(
-  mapStateToProps,
-  {}
-)(Home);
+export default Home;
