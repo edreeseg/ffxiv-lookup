@@ -30,12 +30,13 @@ const StyledTitle = styled.div`
 `;
 
 export const Info = styled.div`
+  position: relative;
   width: 90%;
   display: ${props => (props.open ? "block" : "none")};
   margin: 0 auto;
   border: 1px solid #222;
   border-top: none;
-  padding: 10px 20px;
+  padding: 20px 10px;
 
   &:nth-child(4) {
     border-top: 1px solid #222;
@@ -45,62 +46,43 @@ export const Info = styled.div`
   &.display-enter {
     display: block;
     height: 0;
-    padding: 0 20px;
+    padding: 0;
 
     * {
-      position: relative;
-      right: 20px;
-      top: 10px;
+      position: absolute;
       opacity: 0;
     }
   }
   &.display-enter-active {
     display: block;
     height: ${props => `${props.height}px`};
-    padding: 10px 20px;
+    padding: 20px 10px;
     transition: height 500ms ease, padding 500ms ease;
 
     * {
       opacity: 1;
       position: relative;
-      right: 0;
-      top: 0;
       transition: opacity 500ms ease-in, right 500ms ease-in, top 500ms ease;
-    }
-  }
-  &.display-enter-done {
-    display: block;
-    height: ${props => `${props.height}px`};
-    padding: 10px 20px;
-
-    * {
-      opacity: 1;
-      position: relative;
-      right: 0;
-      top: 0;
     }
   }
   &.display-exit {
     display: block;
     height: ${props => `${props.height}px`};
-    padding: 0 20px;
+    padding: 20px 10px;
     * {
       opacity: 1;
       position: relative;
-      right: 0;
-      top: 10px;
     }
   }
   &.display-exit-active {
     display: block;
     height: 0;
-    padding: 0 20px;
-    transition: height 500ms ease;
+    padding: 0;
+    transition: height 500ms ease, padding 500ms ease;
 
     * {
       opacity: 0;
       position: relative;
-      right: 20px;
       transition: opacity 200ms ease, right 200ms ease;
     }
   }
@@ -109,7 +91,6 @@ export const Info = styled.div`
     height: 0;
 
     * {
-      right: 20px;
     }
   }
 `;
@@ -133,9 +114,7 @@ export default class AccordionSection extends React.Component {
   retrieveHeight = () => {
     const panel = this.heightRef.current;
     panel.style.visibility = "hidden";
-    panel.style.position = "absolute";
     panel.style.display = "block";
-    panel.style.height = "auto";
     const height = panel.offsetHeight;
     this.setState({ height });
     panel.removeAttribute("style");
@@ -154,10 +133,7 @@ export default class AccordionSection extends React.Component {
           in={this.props.index === this.props.current}
           timeout={500}
           classNames="display"
-          onEntered={e => {
-            this.setState({ open: true });
-            this.retrieveHeight();
-          }}
+          onEntered={e => this.setState({ open: true })}
           onExited={e => this.setState({ open: false })}
         >
           <Info
