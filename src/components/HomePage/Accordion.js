@@ -1,16 +1,5 @@
 import React from "react";
-import styled from "styled-components";
-
 import AccordionSection from "./AccordionSection";
-
-const StyledAccordion = styled.section`
-  width: 90%;
-  margin: 0 auto;
-  background: #eee;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  padding: 10px;
-`;
 
 class Accordion extends React.Component {
   constructor(props) {
@@ -44,7 +33,7 @@ class Accordion extends React.Component {
   };
   render() {
     return (
-      <StyledAccordion>
+      <section className="accordion">
         {this.state.senses.map((sense, index) => (
           <AccordionSection
             key={sense.text}
@@ -54,7 +43,7 @@ class Accordion extends React.Component {
             handleSelection={this.handleSelection}
           />
         ))}
-      </StyledAccordion>
+      </section>
     );
   }
 }

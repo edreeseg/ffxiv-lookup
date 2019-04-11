@@ -1,44 +1,10 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
-import styled from "styled-components";
-
-const StyledTopBar = styled.header`
-  height: 7%;
-  background: #808080;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 1%;
-
-  a {
-    text-decoration: none;
-    color: black;
-  }
-`;
-
-const Links = styled.nav`
-  width: 80%;
-  height: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  a {
-    text-decoration: none;
-    color: #eee;
-    font-weight: 300;
-  }
-
-  .active {
-    font-weight: 700;
-    font-size: 1.7rem;
-  }
-`;
 
 const TopBar = props => (
-  <StyledTopBar>
+  <header className="top-bar">
     <Link to="/">XIV LOOKUP!</Link>
-    <Links>
+    <nav className="top-bar-links">
       <NavLink exact to="/">
         Home
       </NavLink>
@@ -46,8 +12,8 @@ const TopBar = props => (
       <NavLink exact to="/character">
         My Character
       </NavLink>
-    </Links>
-  </StyledTopBar>
+    </nav>
+  </header>
 );
 
 export default TopBar;

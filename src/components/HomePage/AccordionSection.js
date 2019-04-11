@@ -1,99 +1,6 @@
 import React from "react";
-import styled from "styled-components";
-import { CSSTransition } from "react-transition-group";
-
-const StyledTitle = styled.div`
-  height: 7rem;
-  width: 90%;
-  margin: 0 auto;
-  padding: 0 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  color: #eee;
-  border: 1px solid #222;
-  font-size: 4rem;
-  font-weight: 300;
-  background: ${props => props.bg};
-
-  &:nth-child(3) {
-    border-top: none;
-    border-bottom: none;
-  }
-
-  &:hover h3 {
-    pointer-events: none;
-    user-select: none;
-    font-size: 4.2rem;
-  }
-`;
-
-export const Info = styled.div`
-  position: relative;
-  width: 90%;
-  display: ${props => (props.open ? "block" : "none")};
-  margin: 0 auto;
-  border: 1px solid #222;
-  border-top: none;
-  padding: 20px 10px;
-
-  &:nth-child(4) {
-    border-top: 1px solid #222;
-    border-bottom: none;
-  }
-
-  &.display-enter {
-    display: block;
-    height: 0;
-    padding: 0;
-
-    * {
-      position: absolute;
-      opacity: 0;
-    }
-  }
-  &.display-enter-active {
-    display: block;
-    height: ${props => `${props.height}px`};
-    padding: 20px 10px;
-    transition: height 500ms ease, padding 500ms ease;
-
-    * {
-      opacity: 1;
-      position: relative;
-      transition: opacity 500ms ease-in, right 500ms ease-in, top 500ms ease;
-    }
-  }
-  &.display-exit {
-    display: block;
-    height: ${props => `${props.height}px`};
-    padding: 20px 10px;
-    * {
-      opacity: 1;
-      position: relative;
-    }
-  }
-  &.display-exit-active {
-    display: block;
-    height: 0;
-    padding: 0;
-    transition: height 500ms ease, padding 500ms ease;
-
-    * {
-      opacity: 0;
-      position: relative;
-      transition: opacity 200ms ease, right 200ms ease;
-    }
-  }
-  &.display-exit-done {
-    display: none;
-    height: 0;
-
-    * {
-    }
-  }
-`;
+import { Transition } from "react-transition-group"; 
+// This component was using CSSTransition - see less/components/accordion-section.less for previous code, needs converting.
 
 export default class AccordionSection extends React.Component {
   constructor(props) {
@@ -120,29 +27,36 @@ export default class AccordionSection extends React.Component {
     panel.removeAttribute("style");
   };
   render() {
-    return (
-      <>
-        <StyledTitle
-          bg={this.props.sense.bg}
-          onClick={this.props.handleSelection}
-          data-index={this.props.index}
+    const inProp = this.props.index === this.props.current;
+    const duration = 500;
+    const defaultStyle = {
+      transition: `height ${duration}ms ease, padding ${duration}ms ease`
+    }
+    const transitionStyles = {
+      entering: { display: 'block', height: '0', padding: '0' },
+      entered: { display: 'block', height: `${this.state.height}px`, padding: '20px 10px' },
+      exiting: { display: 'block', height: `${this.state.height}px`, padding: '20px 10px' },
+      exited: { display: 'block', height: '0', padding: '0' },
+    };
+    const Section = ({ in: inProp}) => (
+      <Transition
+        in={inProp}
+        timeout={duration}
+        onEntered={e => this.setState({ open: true })}
+        onExited={e => this.setState({ open: false })}
+      >
+        {state => (
+        <section className="section"
+          style={{
+            ...defaultStyle,
+            ...transitionStyles[state]
+          }}
+          {...this.props}
+          ref={this.heightRef}
+          height={this.state.height}
+          open={this.state.open}
         >
-          <h3>{this.props.sense.text}</h3>
-        </StyledTitle>
-        <CSSTransition
-          in={this.props.index === this.props.current}
-          timeout={500}
-          classNames="display"
-          onEntered={e => this.setState({ open: true })}
-          onExited={e => this.setState({ open: false })}
-        >
-          <Info
-            {...this.props}
-            ref={this.heightRef}
-            height={this.state.height}
-            open={this.state.open}
-          >
-            <span>
+            <span style={this.state.open ? null : { display: 'none' }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
               sit amet commodo sapien, in facilisis ex. Pellentesque eu libero
               vel turpis laoreet elementum. Pellentesque mauris dolor, ornare
@@ -200,8 +114,20 @@ export default class AccordionSection extends React.Component {
               volutpat tellus. Sed molestie tortor finibus vestibulum interdum.
               Aliquam sollicitudin sit amet erat eu vestibulum.
             </span>
-          </Info>
-        </CSSTransition>
+          </section>
+        )}
+      </Transition>
+    )
+    return (
+      <>
+        <div className="title">
+          bg={this.props.sense.bg}
+          onClick={this.props.handleSelection}
+          data-index={this.props.index}
+        >
+          <h3>{this.props.sense.text}</h3>
+        </div>
+        <Section />
       </>
     );
   }
