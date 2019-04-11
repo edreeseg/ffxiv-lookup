@@ -46,6 +46,6 @@ FFXIV Lookup was built using create-react-app on the front end, and Node.js with
 
 ### Contributions
 
-    - We're happy to accept any contributions seeking to improve functionality.
-        - If you'd like to contribute in fixing an existing problem, please fork and clone the repository as detailed above.  When submitting pull requests, please be thorough in explaining the reasoning behind any changes.
-        - If you notice a bug, issue, or inaccuracy in the application during use, please feel free to raise an issue to be addressed.  Select the `issues` tab on the repository, [here](https://github.com/edreeseg/ffxiv-lookup/issues), and press the `New Issue` button.  Please be thorough in explaining the issue and what steps can be taken to replicate it.
+- We're happy to accept any contributions seeking to improve functionality.
+    - If you'd like to contribute in fixing an existing problem, please fork and clone the repository as detailed above.  When submitting pull requests, please be thorough in explaining the reasoning behind any changes.
+    - If you notice a bug, issue, or inaccuracy in the application during use, please feel free to raise an issue to be addressed.  Select the `issues` tab on the repository, [here](https://github.com/edreeseg/ffxiv-lookup/issues), and press the `New Issue` button.  Please be thorough in explaining the issue and what steps can be taken to replicate it.
