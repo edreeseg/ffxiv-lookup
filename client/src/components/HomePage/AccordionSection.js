@@ -38,7 +38,7 @@ export default class AccordionSection extends React.Component {
       exiting: { display: 'block', height: `${this.state.height}px`, padding: '20px 10px' },
       exited: { display: 'block', height: '0', padding: '0' },
     };
-    const Section = ({ in: inProp}) => (
+    const Section = () => (
       <Transition
         in={inProp}
         timeout={duration}
@@ -127,7 +127,7 @@ export default class AccordionSection extends React.Component {
         >
           <h3>{this.props.sense.text}</h3>
         </div>
-        <Section />
+        {Section()}
       </>
     );
   }
