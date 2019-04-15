@@ -20,19 +20,20 @@ const transitionStyles = (height) =>  {
   }
 };
 
-const Section = ({ in: inProp, height: heightProp, open }) => (
+const Section = ({ in: inProp, height: heightProp, open, calculating }) => ( // Convert to class component for access to ref?
   <Transition
     in={inProp}
     timeout={duration}
   >
     {state => (
     <section className="section"
-      style={{
-        ...defaultStyles,
-        ...transitionStyles(heightProp)[state]
-      }}
+      style={calculating ? { display: 'block', visibility: 'hidden' } : {
+          ...defaultStyles,
+          ...transitionStyles(heightProp)[state],
+        }}
     >
-      <span style={open ? null : { display: 'none' }}>
+      <span style={ calculating ? { display: 'block' } :
+        open ? null : { display: 'none' }}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
         sit amet commodo sapien, in facilisis ex. Pellentesque eu libero
         vel turpis laoreet elementum. Pellentesque mauris dolor, ornare
@@ -100,6 +101,7 @@ export default class AccordionSection extends React.Component {
     super(props);
     this.state = {
       height: 0,
+      calculating: false,
     };
     this.heightRef = React.createRef();
   }
@@ -111,12 +113,12 @@ export default class AccordionSection extends React.Component {
     window.removeEventListener("resize", this.retrieveHeight);
   }
   retrieveHeight = () => {
-    const panel = this.heightRef.current;
-    panel.style.visibility = "hidden";
-    panel.style.display = "block";
-    const height = panel.offsetHeight;
-    this.setState({ height });
-    panel.removeAttribute("style");
+    this.setState({ calculating: true }, () => {
+      const panel = this.heightRef.current;
+      const height = panel.offsetHeight;
+      console.log(height);
+      this.setState({ height, calculating: false });
+    })
   };
   render() {
     return (
@@ -129,11 +131,14 @@ export default class AccordionSection extends React.Component {
         >
           <h3>{this.props.sense.text}</h3>
         </div>
-          <Section
-            in={this.props.index === this.props.current} 
-            height={this.state.height} 
-            open={this.props.index === this.props.current} 
-          />
+          <div>
+            <Section
+              in={this.props.index === this.props.current} 
+              height={this.state.height} 
+              open={this.props.index === this.props.current} 
+              calculating={this.state.calculating}
+            />
+          </div>
       </>
     );
   }
